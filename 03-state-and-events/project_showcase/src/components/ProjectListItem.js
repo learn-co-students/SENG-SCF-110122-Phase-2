@@ -1,9 +1,19 @@
+import { useState } from 'react';
+
 const ProjectListItem = ({ id, about, image, link, name, phase }) => {
+
+  const [claps, setClaps] = useState(0)
+  
+  // when i click on my clap button, i want my claps to increment by 1
+  function handleClaps() {
+    setClaps(prevState => prevState + 1)
+  }
+
   return (
     <li className="card">
       <figure className="image">
         <img src={image} alt={name} />
-        <button className="claps">👏{0}</button>
+        <button className="claps" onClick={handleClaps}>👏{claps}</button>
       </figure>
 
       <section className="details">
