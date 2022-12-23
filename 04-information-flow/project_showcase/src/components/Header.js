@@ -1,15 +1,10 @@
 import { useState } from "react";
 
 
-const Header = () => {
+const Header = ({isDarkMode, handleClick, handleUpdateWord}) => {
+  let sun = "\u{1F324}", moon = "\u{1F319}"
+  const buttonTextContent = isDarkMode ? sun : moon
 
-  const [isDarkMode, setIsDarMode] = useState(true)
-  
-  const buttonTextContent = isDarkMode ? "Light Mode" : "Dark Mode"
-
-  const handleClick = () => {
-    setIsDarMode(prevState => !prevState)
-  }
 
   return (
     <header>
@@ -17,6 +12,7 @@ const Header = () => {
         <span className="logo">{"//"}</span>
         Project Showcase
       </h1>
+      <input type="text" onChange={(e) => handleUpdateWord(e.target.value)}/>
       <button onClick={handleClick}>{buttonTextContent}</button>
     </header>
   );

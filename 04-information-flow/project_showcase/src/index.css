@@ -63,6 +63,7 @@ button {
   background-color: var(--background);
   border: 2px solid var(--dark-turquoise);
   transition: background-color 0.2s;
+  font-size: 28px;
 }
 
 button.active,
