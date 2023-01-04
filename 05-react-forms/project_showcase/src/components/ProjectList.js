@@ -9,7 +9,7 @@ const ProjectList = ({ projects }) => {
   });
 
   const projectListItems = searchResults.map((project) => (
-    <ProjectListItem key={project.id} {...project} />
+    <ProjectListItem key={project.id} project={project} />
   ));
 
   const handleOnChange = (e) => setSearchQuery(e.target.value);

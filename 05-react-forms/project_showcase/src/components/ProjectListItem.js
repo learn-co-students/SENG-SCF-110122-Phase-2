@@ -1,8 +1,10 @@
 import { useState } from "react";
 
-const ProjectListItem = ({ id, about, image, link, name, phase }) => {
+const ProjectListItem = ({project}) => {
   const [clapCount, setClapCount] = useState(0);
-
+  
+  const { image, about, link, name, phase } = project
+  
   const handleClap = () => setClapCount(clapCount + 1);
 
   return (
