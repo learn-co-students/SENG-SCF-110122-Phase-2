@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ProjectEditForm = ({ projectId, completeEditing }) => {
+const ProjectEditForm = ({ projectId, completeEditing, onHandleUpdate }) => {
   const [formData, setFormData] = useState({
     name: "",
     about: "",
@@ -13,9 +13,9 @@ const ProjectEditForm = ({ projectId, completeEditing }) => {
 
   useEffect(() => {
     fetch(`http://localhost:4000/projects/${projectId}`)
-      .then((res) => res.json())
-      .then((project) => setFormData(project));
-  }, []);
+      .then(res => res.json())
+      .then(project => setFormData(project));
+  }, [projectId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +25,23 @@ const ProjectEditForm = ({ projectId, completeEditing }) => {
   function handleSubmit(e) {
     e.preventDefault();
     // Add code here
-    completeEditing();
+    // update server => fetch / PATCH
+    fetch(`http://localhost:4000/projects/${projectId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type":  "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(resp => resp.json())
+    // update client => setState
+    .then(projObj => {
+      onHandleUpdate(projObj)
+      completeEditing();
+    })
+     // argument TBD
+    // inverse data flow => callback function passed as props (App)
   }
 
   return (

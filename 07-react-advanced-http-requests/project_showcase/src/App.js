@@ -16,6 +16,18 @@ const App = () => {
       .then((projects) => setProjects(projects));
   }, []);
 
+  // useEffect(() => {
+  //   const id = setInterval(() => {
+  //     console.log("hi")}, 10000)
+  //   console.log(id)
+
+  //   return () => {
+  //     console.log("cleaning up")
+  //     clearInterval(id)
+  //   }
+
+  // }, [isDarkMode])
+
   const onToggleDarkMode = () => {
     setIsDarkMode((isDarkMode) => !isDarkMode);
   };
@@ -23,6 +35,26 @@ const App = () => {
   const onAddProject = (newProj) => {
     setProjects((projects) => [...projects, newProj]);
   };
+
+  // create a function to update our projects => encapsulate setProjects()
+  // .map over our projects
+  // if(id === project.id) return newProj
+  // otherwise, return og project
+  // set State
+  function onHandleUpdate(updatedProj) {
+    const updatedProjects = projects.map(proj => {
+      if(proj.id === updatedProj.id) return updatedProj
+      else return proj
+    })
+    setProjects(updatedProjects)
+  }
+
+  function onHandleDelete(id) {
+    // iterate over my projects. if we find the one we've deleted. filter it out. set State
+    const updateProjects = projects.filter(proj => proj.id !== id)
+    setProjects(updateProjects)
+  }
+
 
   const completeEditing = () => {
     setProjectId(null);
@@ -38,12 +70,15 @@ const App = () => {
         <ProjectEditForm
           projectId={projectId}
           completeEditing={completeEditing}
+          onHandleUpdate={onHandleUpdate}
         />
       );
     } else {
       return <ProjectForm onAddProject={onAddProject} />;
     }
   };
+
+
 
   return (
     <div className={isDarkMode ? "App" : "App light"}>
@@ -52,6 +87,7 @@ const App = () => {
       <ProjectList
         projects={projects}
         enterProjectEditModeFor={enterProjectEditModeFor}
+        onHandleDelete={onHandleDelete}
       />
     </div>
   );

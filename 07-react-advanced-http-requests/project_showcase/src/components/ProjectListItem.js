@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 
-const ProjectListItem = ({ project, enterProjectEditModeFor }) => {
+const ProjectListItem = ({ project, enterProjectEditModeFor, onHandleDelete }) => {
   const { id, image, about, name, link, phase } = project;
 
   const [clapCount, setClapCount] = useState(0);
@@ -12,7 +12,14 @@ const ProjectListItem = ({ project, enterProjectEditModeFor }) => {
     enterProjectEditModeFor(id);
   };
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = () => {
+    // update server, update client
+    fetch(`http://localhost:4000/projects/${id}`, {
+      method: "DELETE"
+    })
+    // update our client => update state
+    .then(() => onHandleDelete(id))
+  };
 
   return (
     <li className="card">
