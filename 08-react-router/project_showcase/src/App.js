@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Switch, Route } from "react-router-dom";
 
 import Header from "./components/Header";
 import ProjectForm from "./components/ProjectForm";
@@ -10,7 +11,6 @@ import Home from "./components/Home";
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [projects, setProjects] = useState([]);
-  const [projectId, setProjectId] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:4000/projects")
@@ -26,13 +26,6 @@ const App = () => {
     setProjects((projects) => [...projects, newProj]);
   };
 
-  const completeEditing = () => {
-    setProjectId(null);
-  };
-
-  const enterProjectEditModeFor = (projectId) => {
-    setProjectId(projectId);
-  };
 
   const onUpdateProject = (updatedProj) => {
     const updatedProjects = projects.map((ogProject) => {
@@ -43,7 +36,6 @@ const App = () => {
       }
     });
     setProjects(updatedProjects);
-    completeEditing();
   };
 
   const onDeleteProject = (deletedProj) => {
@@ -53,30 +45,37 @@ const App = () => {
     setProjects(updatedProjects);
   };
 
-  const renderForm = () => {
-    if (projectId) {
-      return (
-        <ProjectEditForm
-          projectId={projectId}
-          onUpdateProject={onUpdateProject}
-        />
-      );
-    } else {
-      return <ProjectForm onAddProject={onAddProject} />;
-    }
-  };
-
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
-      <Home />
-      {renderForm()}
-      <ProjectList
-        projects={projects}
-        enterProjectEditModeFor={enterProjectEditModeFor}
-        onDeleteProject={onDeleteProject}
-      />
-      <ProjectDetail />
+
+      <Switch>
+
+        <Route path="/projects/new">
+          <ProjectForm onAddProject={onAddProject} />
+        </Route>
+
+        <Route path="/projects/:id/edit">
+          <ProjectEditForm
+            onUpdateProject={onUpdateProject} />
+        </Route>
+
+        <Route path="/projects/:id">
+          <ProjectDetail />
+        </Route>
+
+        <Route path="/projects">
+          <ProjectList
+            projects={projects}
+            onDeleteProject={onDeleteProject}
+          />
+        </Route>
+
+        <Route path="/"> 
+        {/* exact prop is optional if you want to keep your root route at the top */}
+          <Home />
+        </Route>
+      </Switch>
     </div>
   );
 };

@@ -313,3 +313,7 @@ header h1 a:hover {
   display: block;
   margin-bottom: 2rem;
 }
+
+/* a {
+  text-decoration: none !important;
+} */
