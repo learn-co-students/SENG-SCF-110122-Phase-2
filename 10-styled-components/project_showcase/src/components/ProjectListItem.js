@@ -6,9 +6,7 @@ import { UserContext } from "../App";
 const ProjectListItem = ({ project, onDeleteProject }) => {
   const { id, image, about, name, link, phase } = project;
 
-  const { user } = useContext(UserContext)
-
-  console.log(currentUser)
+  const { user, updateUser } = useContext(UserContext)
 
   const [clapCount, setClapCount] = useState(0);
 

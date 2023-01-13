@@ -53,6 +53,10 @@ const App = () => {
     setUserSubmitted(x => !x)
   }
 
+  function updateUser(newUser){
+    setUser(newUser)
+  }
+
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
@@ -74,7 +78,7 @@ const App = () => {
         <Route path="/projects/:id">
           <ProjectDetail />
         </Route>
-        <UserContext.Provider value={{ user }}>
+        <UserContext.Provider value={{ user, updateUser }}>
           <Route path="/projects">
             <ProjectList
               projects={projects}
