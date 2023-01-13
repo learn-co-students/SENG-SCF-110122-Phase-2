@@ -1,5 +1,5 @@
 // ✅ uncomment the line below ⬇️
-import styled from "styled-components";
+// import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 
@@ -18,15 +18,17 @@ background-color: #5469d4;
 
 export default function App() {
   // ✅ replace the Button with your StyledButton
-  return <Btn>I'm a Button</Btn>;
+  return (
+    <Button
+      style={{
+        padding: "8px 16px",
+        boxShadow:
+          "0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08)",
+        backgroundColor: "#6772e5",
+        border: "1px solid #6772e5",
+      }}
+    >
+      I'm a Button
+    </Button>
+  );
 }
-
-const Btn = styled(Button)`
-  padding: 8px 16px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  background-color: #6772e5;
-  border: 1px solid #6772e5;
-  &:hover {
-    background-color: #5469d4;
-  }
-`;
