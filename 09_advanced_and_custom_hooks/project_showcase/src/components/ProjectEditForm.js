@@ -1,28 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import { useForm } from "../hooks/useForm";
+import { UserContext } from "../App";
+
+// we import useContext from react and also import the UserContext from App which provides us the data
+
 const ProjectEditForm = ({ onUpdateProject }) => {
-  const [formState, setFormState] = useState({
+
+  const initialState = {
     name: "",
     about: "",
     phase: "",
     link: "",
     image: "",
-  });
+  }
 
-  const { name, about, phase, link, image } = formState;
+  //as with any hook we create a variable and set it equal to useContext(). We also pass as an argument the UserContext which we imported from App. Again, the provider. user is object destructuring from the value as passed in app
+  const { user } = useContext(UserContext)
+
+  const { formData, populateFormValues, handleChange } = useForm(initialState)
+  
+
+  const { name, about, phase, link, image } = formData;
   const { id } = useParams();
   const history = useHistory();
 
   useEffect(() => {
     fetch(`http://localhost:4000/projects/${id}`)
       .then((res) => res.json())
-      .then((project) => setFormState(project));
-  }, [id]);
+      .then((project) => populateFormValues(project));
+  }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormState({ ...formState, [name]: value });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +44,7 @@ const ProjectEditForm = ({ onUpdateProject }) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(formState),
+      body: JSON.stringify(formData),
     };
 
     fetch(`http://localhost:4000/projects/${id}`, configObj)

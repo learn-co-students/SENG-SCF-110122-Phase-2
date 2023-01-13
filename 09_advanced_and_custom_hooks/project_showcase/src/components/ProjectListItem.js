@@ -15,8 +15,8 @@ const ProjectListItem = ({
   const handleDeleteClick = () => {
     fetch(`http://localhost:4000/projects/${id}`, {
       method: "DELETE",
-    });
-    onDeleteProject(project)
+    })
+    // onDeleteProject(project)
       .then((resp) => console.log(resp))
       .then(onDeleteProject(project));
   };

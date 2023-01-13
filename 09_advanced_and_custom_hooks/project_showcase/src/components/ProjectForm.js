@@ -1,18 +1,33 @@
-import { useState } from "react";
+import { useRef, useEffect } from "react";
+import { useHistory } from 'react-router-dom'
+import { useForm } from "../hooks/useForm";
 
 const ProjectForm = ({ onAddProject }) => {
-  const [formData, setFormData] = useState({
+
+  const initialState = {
     name: "",
     about: "",
     phase: "",
     link: "",
     image: "",
-  });
+  }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((formData) => ({ ...formData, [name]: value }));
-  };
+  // const [formData, setFormData] = useState(initialState);
+
+  const { formData, reset, handleChange } = useForm(initialState)
+
+  const history = useHistory()
+  const inputRef = useRef()
+  // console.log(inputRef.current)
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((formData) => ({ ...formData, [name]: value }));
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,13 +44,8 @@ const ProjectForm = ({ onAddProject }) => {
       .then((resp) => resp.json())
       .then((project) => {
         onAddProject(project);
-        setFormData({
-          name: "",
-          about: "",
-          phase: "",
-          link: "",
-          image: "",
-        });
+        reset()
+        history.push("/projects")
       });
   };
 
@@ -51,6 +61,7 @@ const ProjectForm = ({ onAddProject }) => {
           name="name"
           onChange={handleChange}
           value={formData.name}
+          ref={inputRef}
         />
 
         <label htmlFor="about">About</label>
