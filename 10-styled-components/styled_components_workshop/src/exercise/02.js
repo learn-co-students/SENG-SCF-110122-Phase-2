@@ -18,17 +18,5 @@ background-color: #5469d4;
 
 export default function App() {
   // ✅ replace the Button with your StyledButton
-  return (
-    <Button
-      style={{
-        padding: "8px 16px",
-        boxShadow:
-          "0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08)",
-        backgroundColor: "#6772e5",
-        border: "1px solid #6772e5",
-      }}
-    >
-      I'm a Button
-    </Button>
-  );
+  return <Button>I'm a Button</Button>;
 }
