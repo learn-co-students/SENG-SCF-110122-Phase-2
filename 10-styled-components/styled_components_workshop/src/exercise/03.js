@@ -24,8 +24,8 @@ const items = ["Check", "Out", "This", "Great", "List"];
 function List() {
   return (
     <UnorderedList>
-      {items.map((item) => (
-        <ListItem key={item}> {item} </ListItem>
+      {items.map((item, index) => (
+        <ListItem key={item} isEven={(index + 1) % 2 === 0}> {item} </ListItem>
       ))}
     </UnorderedList>
   );
